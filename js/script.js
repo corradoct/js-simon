@@ -7,22 +7,38 @@
 
 $(document).ready(
   function() {
-    var arrayNumeriRandom = generaNumeriRandom(1, 6, 5);
-    console.log(arrayNumeriRandom);
+    // Genero i numeri random da mostrare nell'alert
+    var arrayNumeriRandom = generaNumeriRandom(1, 15, 5);
     alert('I numeri da ricordare sono :\n' + arrayNumeriRandom + '\nDopo 30 secondi da quando clicchi su OK me li dovrai dire.\nBuona fortuna !');
+
+    // Creo la funzione anonima che partirà 30 secondi dopo la chiusura dell'alert
     setTimeout(function() {
-      var userNumber = chiediNumeroUtente(5);
-      console.log(userNumber);
-      var numeriVincenti = confrontaArray(arrayNumeriRandom, userNumber);
-      console.log(numeriVincenti);
-      if (numeriVincenti == '') {
+      // Creo l'array dove inserirò i numeri indovinati
+      var numeriIndovinati = [];
+
+      // Chiedo all'utente i numeri, controllo se sono presenti nell'array dei numeri random ed eventualmente li inserisco nell'array dei numeri indovinati
+      for (var i = 0; i < arrayNumeriRandom.length; i++) {
+        var userNumber = parseInt(prompt('Inserisci il numero'));
+        if (arrayNumeriRandom.includes(userNumber)) {
+          numeriIndovinati.push(userNumber);
+        }
+      }
+
+      // Controllo se sono stati indovinati i numeri e lo comunico all'utente, eventualmente comunico anche quanti e quali numeri ha indovinato
+      if (numeriIndovinati == '') {
         console.log('Non hai indovinato nessun numero');
       } else {
-        console.log('Hai indovinato i numeri ' + numeriVincenti);
+        console.log('Hai indovinato ' + numeriIndovinati.length + ' numeri. I numeri indovinati sono : ' +  numeriIndovinati);
       }
-    }, 5000);
+    }, 30000);
   }
 );
+
+// ************************  FUNZIONI  *********************** //
+
+// Funzione che genera numeri casuali.
+// Richiede come argomenti il numero minimo del range, il numero massimo del range e la quantità dei numeri da creare.
+// Ritorna l'array con i numeri random.
 
 function generaNumeriRandom(rangeMin, rangeMax, quantitaNumeri) {
   var arrayNumeriCasuali = [];
@@ -35,33 +51,4 @@ function generaNumeriRandom(rangeMin, rangeMax, quantitaNumeri) {
     }
   }
 return arrayNumeriCasuali;
-}
-
-function chiediNumeroUtente(quantitaNumeri) {
-  var arrayNumeriUtente = [];
-  var i = 0;
-  while (i < quantitaNumeri) {
-    var number = parseInt(prompt('Inserisci il numero'));
-    if (!arrayNumeriUtente.includes(number)) {
-      arrayNumeriUtente.push(number);
-      i++;
-    }
-  }
-  return arrayNumeriUtente;
-}
-
-function confrontaArray(arrayUno, arrayDue) {
-  var arrayValoriComuni = [];
-  var numeroDaControllareUno;
-  var numeroDaControllareDue;
-  for (var i = 0; i < arrayUno.length; i++) {
-    numeroDaControllareUno = arrayUno[i];
-    for (var j = 0; j < arrayDue.length; j++) {
-      numeroDaControllareDue = arrayDue[i];
-    }
-    if (numeroDaControllareUno === numeroDaControllareDue) {
-      arrayValoriComuni.push(numeroDaControllareUno);
-    }
-  }
-  return arrayValoriComuni;
 }
